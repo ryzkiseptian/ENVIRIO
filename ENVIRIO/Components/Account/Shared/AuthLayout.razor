@@ -1,0 +1,89 @@
+@inherits LayoutComponentBase
+
+<div class="auth-wrapper">
+    <div class="auth-container">
+        <!-- Left Brand Banner (Visible on Desktop) -->
+        <aside class="auth-brand-panel" aria-label="ENVIRIO Brand Panel">
+            <div class="brand-panel-content">
+                <div class="brand-logo-area">
+                    <div class="brand-icon-box">
+                        <i class="bi bi-cpu-fill" aria-hidden="true"></i>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">ENVIRIO</span>
+                        <span class="brand-tag">IoT PLATFORM</span>
+                    </div>
+                </div>
+
+                <div class="brand-hero">
+                    <h1 class="brand-headline">
+                        Intelligent Monitoring for Sustainable Environments
+                    </h1>
+                    <p class="brand-description">
+                        Comprehensive IoT telemetry, air & environmental quality monitoring, and automated alerts in one unified console.
+                    </p>
+                </div>
+
+                <div class="brand-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="bi bi-broadcast-pin"></i>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Real-Time Telemetry</strong>
+                            <span>Instantaneous sensor stream ingestion</span>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Zero-Trust Security</strong>
+                            <span>2FA TOTP, Passkeys & protected endpoints</span>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="bi bi-cloud-check"></i>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Reliable Infrastructure</strong>
+                            <span>PostgreSQL backed environmental data</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="brand-footer">
+                    <span>&copy; @DateTime.Now.Year ENVIRIO System. All rights reserved.</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Content Section -->
+        <main class="auth-content-panel" role="main">
+            <div class="auth-content-header">
+                <!-- Mobile-only logo -->
+                <div class="mobile-brand d-lg-none">
+                    <div class="brand-icon-box sm">
+                        <i class="bi bi-cpu-fill" aria-hidden="true"></i>
+                    </div>
+                    <span class="brand-name">ENVIRIO</span>
+                </div>
+
+                <a href="/" class="auth-back-link" title="Return to Home">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Back to Home</span>
+                </a>
+            </div>
+
+            <div class="auth-content-body">
+                @Body
+            </div>
+
+            <div class="auth-content-footer">
+                <span class="text-muted small">Protected by ENVIRIO Identity & Security</span>
+            </div>
+        </main>
+    </div>
+</div>
