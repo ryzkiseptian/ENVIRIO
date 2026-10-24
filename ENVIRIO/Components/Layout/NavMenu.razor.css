@@ -11,51 +11,29 @@
 .nav-brand {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
     text-decoration: none;
     transition: opacity 0.2s ease;
+    padding: 0.5rem;
+    border-radius: 6px;
 }
 
 .nav-brand:hover {
-    opacity: 0.8;
+    opacity: 0.85;
+    background-color: #fafafa;
+}
+
+[data-theme="dark"] .nav-brand:hover {
+    background-color: #1c1c1c;
 }
 
 .nav-brand-logo {
-    background: linear-gradient(135deg, #059669, #047857);
-    padding: 0.375rem 0.625rem;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.nav-brand-logo img {
-    height: 20px;
+    height: 26px;
     width: auto;
     object-fit: contain;
-    display: block;
 }
 
-.nav-brand-text {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #171717;
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-    transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-[data-theme="dark"] .nav-brand-text {
-    color: #fafafa;
-}
-
-.app-shell--sidebar-collapsed .nav-brand-text {
-    opacity: 0;
-    transform: translateX(-10px);
-    position: absolute;
-    pointer-events: none;
+.app-shell--sidebar-collapsed .nav-brand-logo {
+    height: 22px;
 }
 
 /* ========== Nav Menu ========== */

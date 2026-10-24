@@ -1,7 +1,111 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Dashboard - ENVIRIO</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="page-header">
+    <div class="page-header-content">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-description">Monitoring kondisi lingkungan secara real-time</p>
+    </div>
+</div>
 
-Welcome to your new app.
+<div class="dashboard-grid">
+    <div class="metric-card metric-card--empty">
+        <div class="metric-card-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+        </div>
+        <div class="metric-card-content">
+            <div class="metric-card-label">Sensor Terhubung</div>
+            <div class="metric-card-value metric-card-value--empty">—</div>
+            <div class="metric-card-status">Belum Ada Sensor</div>
+        </div>
+    </div>
+
+    <div class="metric-card metric-card--empty">
+        <div class="metric-card-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+        </div>
+        <div class="metric-card-content">
+            <div class="metric-card-label">Perangkat Aktif</div>
+            <div class="metric-card-value metric-card-value--empty">—</div>
+            <div class="metric-card-status">Belum Ada Perangkat</div>
+        </div>
+    </div>
+
+    <div class="metric-card metric-card--empty">
+        <div class="metric-card-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+        </div>
+        <div class="metric-card-content">
+            <div class="metric-card-label">Pembacaan Hari Ini</div>
+            <div class="metric-card-value metric-card-value--empty">—</div>
+            <div class="metric-card-status">Menunggu Data</div>
+        </div>
+    </div>
+
+    <div class="metric-card metric-card--empty">
+        <div class="metric-card-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+        </div>
+        <div class="metric-card-content">
+            <div class="metric-card-label">Status Sistem</div>
+            <div class="metric-card-value metric-card-value--empty">—</div>
+            <div class="metric-card-status">Inisialisasi</div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-section">
+    <div class="section-header">
+        <h2 class="section-title">Aktivitas Terbaru</h2>
+    </div>
+    <div class="empty-state">
+        <div class="empty-state-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="18" x2="12" y2="12"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+            </svg>
+        </div>
+        <div class="empty-state-content">
+            <h3 class="empty-state-title">Belum Ada Aktivitas</h3>
+            <p class="empty-state-description">Aktivitas sistem dan perangkat akan ditampilkan di sini setelah sensor terhubung</p>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-section">
+    <div class="info-card">
+        <div class="info-card-header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <h3 class="info-card-title">Mulai Monitoring</h3>
+        </div>
+        <p class="info-card-description">
+            Dashboard ENVIRIO siap digunakan. Untuk memulai monitoring lingkungan, hubungkan sensor IoT pertama Anda.
+        </p>
+        <div class="info-card-actions">
+            <a href="/sensors" class="info-card-link">
+                Kelola Sensor
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>

@@ -99,53 +99,8 @@
     height: 18px;
 }
 
-.app-header-status {
+.app-header-spacer {
     flex: 1;
-    display: flex;
-    align-items: center;
-}
-
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.25rem 0.625rem;
-    border-radius: 4px;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    background-color: transparent;
-    color: #737373;
-    border: 1px solid #e5e5e5;
-}
-
-[data-theme="dark"] .status-badge {
-    background-color: transparent;
-    color: #a3a3a3;
-    border-color: #262626;
-}
-
-.status-badge--success {
-    border-color: #d1fae5;
-    background-color: #f0fdf4;
-    color: #047857;
-}
-
-[data-theme="dark"] .status-badge--success {
-    border-color: #065f46;
-    background-color: rgba(5, 150, 105, 0.08);
-    color: #6ee7b7;
-}
-
-.status-indicator {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: #10b981;
-    box-shadow: 0 0 0 2px #f0fdf4;
-}
-
-[data-theme="dark"] .status-indicator {
-    box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.08);
 }
 
 .app-header-actions {
