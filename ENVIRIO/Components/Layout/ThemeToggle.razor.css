@@ -1,0 +1,55 @@
+.theme-toggle {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease;
+    color: #737373;
+}
+
+.theme-toggle:hover {
+    background-color: #f5f5f5;
+    color: #171717;
+}
+
+[data-theme="dark"] .theme-toggle {
+    color: #a3a3a3;
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+    background-color: #262626;
+    color: #fafafa;
+}
+
+.theme-icon {
+    position: absolute;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    width: 18px;
+    height: 18px;
+}
+
+.theme-icon--sun {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+.theme-icon--moon {
+    opacity: 0;
+    transform: rotate(45deg) scale(0.9);
+}
+
+[data-theme="dark"] .theme-icon--sun {
+    opacity: 0;
+    transform: rotate(-45deg) scale(0.9);
+}
+
+[data-theme="dark"] .theme-icon--moon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
