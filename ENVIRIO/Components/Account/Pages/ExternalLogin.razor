@@ -121,7 +121,7 @@
             return;
         }
 
-        // Sign in the user with this external login provider if the user already has a login.
+        // 1. Coba login langsung jika provider sudah terhubung ke akun
         var result = await SignInManager.ExternalLoginSignInAsync(
             externalLoginInfo.LoginProvider,
             externalLoginInfo.ProviderKey,
@@ -142,11 +142,75 @@
             RedirectManager.RedirectTo("Account/Lockout");
             return;
         }
-
-        // If the user does not have an account, then ask the user to create an account.
-        if (externalLoginInfo.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+        else if (result.IsNotAllowed)
         {
-            Input.Email = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email) ?? "";
+            // Pengguna sudah memiliki login yang terhubung, tetapi belum dikonfirmasi (EmailConfirmed == false).
+            // Karena autentikasi penyedia OAuth (Google) telah memverifikasi email, lakukan konfirmasi otomatis.
+            var userByLogin = await UserManager.FindByLoginAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey);
+            if (userByLogin is not null)
+            {
+                if (!userByLogin.EmailConfirmed)
+                {
+                    var token = await UserManager.GenerateEmailConfirmationTokenAsync(userByLogin);
+                    await UserManager.ConfirmEmailAsync(userByLogin, token);
+                }
+
+                await SignInManager.SignInAsync(userByLogin, isPersistent: false, externalLoginInfo.LoginProvider);
+                RedirectManager.RedirectTo(ReturnUrl);
+                return;
+            }
+        }
+
+        // 2. Ambil email dari klaim eksternal (Google OAuth)
+        var email = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email);
+
+        if (!string.IsNullOrWhiteSpace(email))
+        {
+            Input.Email = email;
+
+            // Periksa apakah sudah ada akun terdaftar dengan email ini
+            var existingUser = await UserManager.FindByEmailAsync(email);
+            if (existingUser is not null)
+            {
+                // Hubungkan Google login ke akun yang sudah ada
+                var addLoginResult = await UserManager.AddLoginAsync(existingUser, externalLoginInfo);
+                if (addLoginResult.Succeeded || (await UserManager.GetLoginsAsync(existingUser)).Any(l => l.LoginProvider == externalLoginInfo.LoginProvider && l.ProviderKey == externalLoginInfo.ProviderKey))
+                {
+                    if (!existingUser.EmailConfirmed)
+                    {
+                        var token = await UserManager.GenerateEmailConfirmationTokenAsync(existingUser);
+                        await UserManager.ConfirmEmailAsync(existingUser, token);
+                    }
+
+                    Logger.LogInformation("Linked {LoginProvider} to existing user {Email}.", externalLoginInfo.LoginProvider, email);
+                    await SignInManager.SignInAsync(existingUser, isPersistent: false, externalLoginInfo.LoginProvider);
+                    RedirectManager.RedirectTo(ReturnUrl);
+                    return;
+                }
+            }
+            else
+            {
+                // Akun baru: buat akun dan langsung konfirmasi email (karena diverifikasi oleh Google)
+                var emailStore = GetEmailStore();
+                var newUser = CreateUser();
+
+                await UserStore.SetUserNameAsync(newUser, email, CancellationToken.None);
+                await emailStore.SetEmailAsync(newUser, email, CancellationToken.None);
+                newUser.EmailConfirmed = true;
+
+                var createResult = await UserManager.CreateAsync(newUser);
+                if (createResult.Succeeded)
+                {
+                    var addResult = await UserManager.AddLoginAsync(newUser, externalLoginInfo);
+                    if (addResult.Succeeded)
+                    {
+                        Logger.LogInformation("User created an account using {Name} provider with auto-confirmed email.", externalLoginInfo.LoginProvider);
+                        await SignInManager.SignInAsync(newUser, isPersistent: false, externalLoginInfo.LoginProvider);
+                        RedirectManager.RedirectTo(ReturnUrl);
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -158,11 +222,36 @@
             return;
         }
 
+        // Periksa apakah pengguna sudah ada dengan email ini
+        var existingUser = await UserManager.FindByEmailAsync(Input.Email);
+        if (existingUser is not null)
+        {
+            var addLoginResult = await UserManager.AddLoginAsync(existingUser, externalLoginInfo);
+            if (addLoginResult.Succeeded || (await UserManager.GetLoginsAsync(existingUser)).Any(l => l.LoginProvider == externalLoginInfo.LoginProvider && l.ProviderKey == externalLoginInfo.ProviderKey))
+            {
+                if (!existingUser.EmailConfirmed)
+                {
+                    var token = await UserManager.GenerateEmailConfirmationTokenAsync(existingUser);
+                    await UserManager.ConfirmEmailAsync(existingUser, token);
+                }
+
+                await SignInManager.SignInAsync(existingUser, isPersistent: false, externalLoginInfo.LoginProvider);
+                RedirectManager.RedirectTo(ReturnUrl);
+                return;
+            }
+            else
+            {
+                message = $"Error: {string.Join(", ", addLoginResult.Errors.Select(e => e.Description))}";
+                return;
+            }
+        }
+
         var emailStore = GetEmailStore();
         var user = CreateUser();
 
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        user.EmailConfirmed = true; // Auto-confirm akun eksternal OAuth Google
 
         var result = await UserManager.CreateAsync(user);
         if (result.Succeeded)
@@ -172,25 +261,12 @@
             {
                 Logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
 
-                var userId = await UserManager.GetUserIdAsync(user);
-                var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-                var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-                    NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-                    new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
-                await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
-
-                // If account confirmation is required, we need to show the link if we don't have a real email sender
-                if (UserManager.Options.SignIn.RequireConfirmedAccount)
-                {
-                    RedirectManager.RedirectTo("Account/RegisterConfirmation", new() { ["email"] = Input.Email });
-                }
-                else
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, externalLoginInfo.LoginProvider);
-                    RedirectManager.RedirectTo(ReturnUrl);
-                }
+                await SignInManager.SignInAsync(user, isPersistent: false, externalLoginInfo.LoginProvider);
+                RedirectManager.RedirectTo(ReturnUrl);
+            }
+            else
+            {
+                message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
             }
         }
         else

@@ -91,8 +91,7 @@ namespace ENVIRIO.Components.Account
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Gagal mengirim email SMTP ke {Email}", toEmail);
-                throw;
+                _logger.LogError(ex, "Gagal mengirim email SMTP ke {Email}. Detail: {Message}", toEmail, ex.Message);
             }
         }
 
