@@ -1,4 +1,4 @@
-﻿@page "/Account/ConfirmEmail"
+@page "/Account/ConfirmEmail"
 
 @using System.Text
 @using Microsoft.AspNetCore.Identity
@@ -8,10 +8,29 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Confirm email</PageTitle>
+<PageTitle>Email Confirmation — ENVIRIO</PageTitle>
 
-<h1>Confirm email</h1>
-<StatusMessage Message="@statusMessage" />
+<div class="auth-card text-center">
+    <div class="auth-icon-box-lg success">
+        <i class="bi bi-patch-check-fill"></i>
+    </div>
+
+    <div class="auth-header">
+        <h2 class="auth-title">Email Confirmation</h2>
+        <p class="auth-subtitle">Account activation status</p>
+    </div>
+
+    <StatusMessage Message="@statusMessage" />
+
+    <div class="auth-card-footer">
+        <div>
+            <a href="Account/Login" class="auth-btn-primary">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Proceed to Sign In</span>
+            </a>
+        </div>
+    </div>
+</div>
 
 @code {
     private string? statusMessage;

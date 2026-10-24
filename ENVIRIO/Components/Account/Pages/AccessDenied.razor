@@ -1,8 +1,28 @@
-﻿@page "/Account/AccessDenied"
+@page "/Account/AccessDenied"
 
-<PageTitle>Access denied</PageTitle>
+<PageTitle>Access Denied — ENVIRIO</PageTitle>
 
-<header>
-    <h1 class="text-danger">Access denied</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
-</header>
+<div class="auth-card text-center">
+    <div class="auth-icon-box-lg danger">
+        <i class="bi bi-shield-slash-fill"></i>
+    </div>
+
+    <div class="auth-header">
+        <h2 class="auth-title">Access Restricted</h2>
+        <p class="auth-subtitle">You do not have the required permissions to view this resource or perform this action.</p>
+    </div>
+
+    <div class="auth-alert auth-alert-danger text-start">
+        <i class="bi bi-lock-fill"></i>
+        <span>If you believe this is in error, please contact your ENVIRIO system administrator to review your role and role assignments.</span>
+    </div>
+
+    <div class="auth-card-footer">
+        <div>
+            <a href="/" class="auth-btn-primary">
+                <i class="bi bi-house-door-fill"></i>
+                <span>Return to Home</span>
+            </a>
+        </div>
+    </div>
+</div>

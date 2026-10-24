@@ -1,7 +1,25 @@
-﻿@page "/Account/InvalidUser"
+@page "/Account/InvalidUser"
 
-<PageTitle>Invalid user</PageTitle>
+<PageTitle>User Not Found — ENVIRIO</PageTitle>
 
-<h3>Invalid user</h3>
+<div class="auth-card text-center">
+    <div class="auth-icon-box-lg danger">
+        <i class="bi bi-person-x-fill"></i>
+    </div>
 
-<StatusMessage />
+    <div class="auth-header">
+        <h2 class="auth-title">User Not Found</h2>
+        <p class="auth-subtitle">The requested user account could not be located in our system.</p>
+    </div>
+
+    <StatusMessage />
+
+    <div class="auth-card-footer">
+        <div>
+            <a href="Account/Login" class="auth-btn-primary">
+                <i class="bi bi-arrow-left"></i>
+                <span>Return to Sign In</span>
+            </a>
+        </div>
+    </div>
+</div>

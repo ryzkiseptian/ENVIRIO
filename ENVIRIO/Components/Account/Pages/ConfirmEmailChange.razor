@@ -1,4 +1,4 @@
-﻿@page "/Account/ConfirmEmailChange"
+@page "/Account/ConfirmEmailChange"
 
 @using System.Text
 @using Microsoft.AspNetCore.Identity
@@ -9,11 +9,29 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Confirm email change</PageTitle>
+<PageTitle>Confirm Email Change — ENVIRIO</PageTitle>
 
-<h1>Confirm email change</h1>
+<div class="auth-card text-center">
+    <div class="auth-icon-box-lg success">
+        <i class="bi bi-envelope-check-fill"></i>
+    </div>
 
-<StatusMessage Message="@message" />
+    <div class="auth-header">
+        <h2 class="auth-title">Email Address Updated</h2>
+        <p class="auth-subtitle">Confirmation status for your new email address</p>
+    </div>
+
+    <StatusMessage Message="@message" />
+
+    <div class="auth-card-footer">
+        <div>
+            <a href="Account/Manage" class="auth-btn-primary">
+                <i class="bi bi-person-gear"></i>
+                <span>Go to Account Management</span>
+            </a>
+        </div>
+    </div>
+</div>
 
 @code {
     private string? message;

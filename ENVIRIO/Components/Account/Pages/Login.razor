@@ -1,4 +1,4 @@
-﻿@page "/Account/Login"
+@page "/Account/Login"
 
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Authentication
@@ -11,63 +11,71 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Log in</PageTitle>
+<PageTitle>Sign In — ENVIRIO</PageTitle>
 
-<h1>Log in</h1>
-<div class="row">
-    <div class="col-lg-6">
-        <section>
-            <StatusMessage Message="@errorMessage" />
-            <EditForm EditContext="editContext" method="post" OnSubmit="LoginUser" FormName="login">
-                <DataAnnotationsValidator />
-                <h2>Use a local account to log in.</h2>
-                <hr />
-                <ValidationSummary class="text-danger" role="alert" />
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username webauthn" aria-required="true" placeholder="name@example.com" />
-                    <label for="Input.Email" class="form-label">Email</label>
-                    <ValidationMessage For="() => Input.Email" class="text-danger" />
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label for="Input.Password" class="form-label">Password</label>
-                    <ValidationMessage For="() => Input.Password" class="text-danger" />
-                </div>
-                <div class="checkbox mb-3">
-                    <label class="form-label">
-                        <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
-                        Remember me
-                    </label>
-                </div>
-                <div>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <hr />
-                <div class="d-flex flex-column">
-                    <span class="text-secondary mx-auto mt-2">OR</span>
-                    <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email" class="btn btn-link mx-auto">Log in with a passkey</PasskeySubmit>
-                </div>
-                <hr />
-                <div>
-                    <p>
-                        <a href="Account/ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
-            </EditForm>
-        </section>
+<div class="auth-card">
+    <div class="auth-header">
+        <h2 class="auth-title">Welcome Back</h2>
+        <p class="auth-subtitle">Sign in to access your IoT environment console</p>
     </div>
-    <div class="col-lg-4 col-lg-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            <ExternalLoginPicker />
-        </section>
+
+    <StatusMessage Message="@errorMessage" />
+
+    <ExternalLoginPicker />
+
+    <div class="auth-divider">
+        <span>or sign in with credentials</span>
+    </div>
+
+    <EditForm EditContext="editContext" method="post" OnSubmit="LoginUser" FormName="login" class="auth-form">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger small mb-2" role="alert" />
+
+        <div class="auth-form-group">
+            <label for="Input.Email" class="auth-label">Email Address</label>
+            <InputText @bind-Value="Input.Email" id="Input.Email" class="auth-input" autocomplete="username webauthn" aria-required="true" placeholder="operator@envirio.io" />
+            <ValidationMessage For="() => Input.Email" class="text-danger small" />
+        </div>
+
+        <div class="auth-form-group">
+            <div class="d-flex justify-content-between align-items-center">
+                <label for="Input.Password" class="auth-label">Password</label>
+                <a href="Account/ForgotPassword" class="auth-link small">Forgot password?</a>
+            </div>
+            <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="auth-input" autocomplete="current-password" aria-required="true" placeholder="••••••••" />
+            <ValidationMessage For="() => Input.Password" class="text-danger small" />
+        </div>
+
+        <div class="auth-checkbox-row">
+            <label class="auth-checkbox-label">
+                <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
+                <span>Remember this device</span>
+            </label>
+        </div>
+
+        <button type="submit" class="auth-btn-primary">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Sign In</span>
+        </button>
+
+        <div class="auth-divider">
+            <span>or use passkey</span>
+        </div>
+
+        <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email" class="auth-btn-secondary">
+            <i class="bi bi-key-fill"></i>
+            <span>Sign in with Passkey</span>
+        </PasskeySubmit>
+    </EditForm>
+
+    <div class="auth-card-footer">
+        <div>
+            <span>New to ENVIRIO? </span>
+            <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))" class="auth-link">Create an account</a>
+        </div>
+        <div>
+            <a href="Account/ResendEmailConfirmation" class="auth-link small text-muted">Resend email confirmation</a>
+        </div>
     </div>
 </div>
 

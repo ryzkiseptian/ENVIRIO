@@ -1,4 +1,4 @@
-﻿@page "/Account/ExternalLogin"
+@page "/Account/ExternalLogin"
 
 @using System.ComponentModel.DataAnnotations
 @using System.Security.Claims
@@ -16,31 +16,44 @@
 @inject IdentityRedirectManager RedirectManager
 @inject ILogger<ExternalLogin> Logger
 
-<PageTitle>Register</PageTitle>
+<PageTitle>Complete Registration — ENVIRIO</PageTitle>
 
-<StatusMessage Message="@message" />
-<h1>Register</h1>
-<h2>Associate your @ProviderDisplayName account.</h2>
-<hr />
+<div class="auth-card">
+    <div class="auth-header">
+        <h2 class="auth-title">Complete Registration</h2>
+        <p class="auth-subtitle">Associate your @ProviderDisplayName account with ENVIRIO</p>
+    </div>
 
-<div  class="alert alert-info">
-    You've successfully authenticated with <strong>@ProviderDisplayName</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
-</div>
+    <StatusMessage Message="@message" />
 
-<div class="row">
-    <div class="col-md-4">
-        <EditForm Model="Input" OnValidSubmit="OnValidSubmitAsync" FormName="confirmation" method="post">
-            <DataAnnotationsValidator />
-            <ValidationSummary class="text-danger" role="alert" />
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="email" placeholder="Please enter your email." />
-                <label for="Input.Email" class="form-label">Email</label>
-                <ValidationMessage For="() => Input.Email" />
-            </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </EditForm>
+    <div class="auth-alert auth-alert-info">
+        <i class="bi bi-info-circle-fill"></i>
+        <span>
+            You have successfully authenticated with <strong>@ProviderDisplayName</strong>.
+            Please verify the email address below to finalize your operator access.
+        </span>
+    </div>
+
+    <EditForm Model="Input" OnValidSubmit="OnValidSubmitAsync" FormName="confirmation" method="post" class="auth-form">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger small mb-2" role="alert" />
+
+        <div class="auth-form-group">
+            <label for="Input.Email" class="auth-label">Account Email</label>
+            <InputText @bind-Value="Input.Email" id="Input.Email" class="auth-input" autocomplete="email" placeholder="operator@envirio.io" autofocus />
+            <ValidationMessage For="() => Input.Email" class="text-danger small" />
+        </div>
+
+        <button type="submit" class="auth-btn-primary">
+            <i class="bi bi-check2-circle"></i>
+            <span>Complete Registration</span>
+        </button>
+    </EditForm>
+
+    <div class="auth-card-footer">
+        <div>
+            <a href="Account/Login" class="auth-link">Cancel & Return to Sign In</a>
+        </div>
     </div>
 </div>
 

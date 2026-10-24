@@ -1,8 +1,31 @@
-﻿@page "/Account/Lockout"
+@page "/Account/Lockout"
 
-<PageTitle>Locked out</PageTitle>
+<PageTitle>Account Locked — ENVIRIO</PageTitle>
 
-<header>
-    <h1 class="text-danger">Locked out</h1>
-    <p class="text-danger" role="alert">This account has been locked out, please try again later.</p>
-</header>
+<div class="auth-card text-center">
+    <div class="auth-icon-box-lg danger">
+        <i class="bi bi-shield-x"></i>
+    </div>
+
+    <div class="auth-header">
+        <h2 class="auth-title">Account Temporarily Locked</h2>
+        <p class="auth-subtitle">For security reasons, access to this account has been temporarily restricted due to multiple failed login attempts.</p>
+    </div>
+
+    <div class="auth-alert auth-alert-danger text-start">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>Please wait a few minutes before trying again, or reset your password if you have forgotten your credentials.</span>
+    </div>
+
+    <div class="auth-card-footer">
+        <div>
+            <a href="Account/ForgotPassword" class="auth-btn-primary mb-2">
+                <i class="bi bi-key-fill"></i>
+                <span>Reset Password</span>
+            </a>
+        </div>
+        <div>
+            <a href="Account/Login" class="auth-link small text-muted">Back to Sign In</a>
+        </div>
+    </div>
+</div>

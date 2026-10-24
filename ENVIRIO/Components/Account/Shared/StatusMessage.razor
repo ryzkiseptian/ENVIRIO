@@ -1,8 +1,11 @@
-﻿@if (!string.IsNullOrEmpty(DisplayMessage))
+@if (!string.IsNullOrEmpty(DisplayMessage))
 {
-    var statusMessageClass = DisplayMessage.StartsWith("Error") ? "danger" : "success";
-    <div class="alert alert-@statusMessageClass" role="alert">
-        @DisplayMessage
+    var isError = DisplayMessage.StartsWith("Error", StringComparison.OrdinalIgnoreCase);
+    var statusClass = isError ? "auth-alert-danger" : "auth-alert-success";
+    var iconClass = isError ? "bi-exclamation-triangle-fill" : "bi-check-circle-fill";
+    <div class="auth-alert @statusClass" role="alert">
+        <i class="bi @iconClass"></i>
+        <span>@DisplayMessage</span>
     </div>
 }
 
