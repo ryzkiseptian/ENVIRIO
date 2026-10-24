@@ -9,7 +9,6 @@
 @inject IEmailSender<ApplicationUser> EmailSender
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
-@inject IWebHostEnvironment Environment
 
 <PageTitle>Confirm Registration — ENVIRIO</PageTitle>
 
@@ -81,9 +80,8 @@
             HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
             statusMessage = "Error finding user for unspecified email";
         }
-        else if (EmailSender is IdentityNoOpEmailSender || Environment.IsDevelopment())
+        else if (EmailSender is IdentityNoOpEmailSender)
         {
-            // In development or when using NoOp sender, provide direct confirmation link
             var userId = await UserManager.GetUserIdAsync(user);
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
