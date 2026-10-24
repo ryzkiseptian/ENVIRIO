@@ -69,10 +69,12 @@ namespace ENVIRIO.Components.Account
 
             try
             {
+                var cleanPassword = _settings.Password?.Replace(" ", "") ?? "";
                 using var client = new SmtpClient(_settings.Host, _settings.Port)
                 {
                     EnableSsl = _settings.EnableSsl,
-                    Credentials = new NetworkCredential(_settings.Username, _settings.Password)
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(_settings.Username, cleanPassword)
                 };
 
                 using var mailMessage = new MailMessage
